@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>📝 My To-Do List</title>
+    <style>
+      body {
+        font-family: Arial;
+        background: #f8f9fa;
+        padding: 2rem;
+        max-width: 600px;
+        margin: auto;
+      }
+      h1 {
+        color: #212529;
+      }
+      .task-form {
+        display: flex;
+        margin-bottom: 1rem;
+      }
+      .task-form input {
+        flex: 1;
+        padding: 0.5rem;
+        font-size: 1rem;
+      }
+      .task-form button {
+        padding: 0.5rem 1rem;
+        background: #007bff;
+        border: none;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        background: white;
+        margin: 0.3rem 0;
+        padding: 0.7rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-left: 5px solid #007bff;
+      }
+      li.done {
+        text-decoration: line-through;
+        color: #6c757d;
+        border-left-color: #28a745;
+      }
+      .counter {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #6c757d;
+      }
+      .actions a {
+        margin-left: 10px;
+        text-decoration: none;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>📝 My To-Do List</h1>
+    <form class="task-form" method="POST" action="/add">
+      <input type="text" name="task" placeholder="Add a task..." required />
+      <button type="submit">Add</button>
+    </form>
+
+    <ul>
+      {% for task in tasks %}
+      <li class="{{ 'done' if task.completed }}">
+        <span
+          onclick="location.href='/toggle/{{ loop.index0 }}'"
+          style="cursor: pointer"
+        >
+          {{ task.task }}
+        </span>
+        <div class="actions">
+          <a href="/delete/{{ loop.index0 }}">❌</a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <div class="counter">
+      Total: {{ total }} | Completed: {{ completed }} | Pending: {{ pending }}
+    </div>
+  </body>
+</html>
